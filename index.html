@@ -1,0 +1,32 @@
+<html>
+    <head><title>InsideAIML</title></head>
+    <body>
+        <input id="word" type='text'>
+        <button onclick="isThere()">Classify</button>
+        <p id="answer">Answer</p>
+        <script>
+            function isThere(){
+                datas = document.getElementById('word').value
+                console.log(datas)
+                fetch('http://127.0.0.1:5000/classify', {
+                  method: 'POST', // or 'PUT'
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(datas),
+                })
+                .then(response => response.json())
+                .then(data => {
+                  console.log('Success:', data);
+                  const keys = Object.keys(data);
+                  console.log('keys = ', keys)
+                  setTimeout(setValue, 100, keys)
+                })
+            }
+            function setValue(keys){
+                console.log('keys = ', keys)
+                document.getElementById('answer').innerHTML=keys
+            }
+        </script>
+    </body>
+</html>
